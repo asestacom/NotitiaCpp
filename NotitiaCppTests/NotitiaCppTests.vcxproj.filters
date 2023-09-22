@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="common\utils_tests.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="modules\TmdbModule_tests.cpp">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\ImdbModule_tests.cpp">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\JustWatchModule_tests.cpp">
+      <Filter>modules</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="helper\config_helper.h">
+      <Filter>helper</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="resources\files\tmdb\archive_test.csv">
+      <Filter>resources\files\tmdb</Filter>
+    </None>
+    <None Include="resources\files\tmdb\movies_metadata_test.csv">
+      <Filter>resources\files\tmdb</Filter>
+    </None>
+    <None Include="resources\files\justwatch\test2.json">
+      <Filter>resources\files\justwatch</Filter>
+    </None>
+    <None Include="resources\files\justwatch\test.json">
+      <Filter>resources\files\justwatch</Filter>
+    </None>
+    <None Include="resources\files\imdb\title.basics.reduced.es_test.tsv">
+      <Filter>resources\files\imdb</Filter>
+    </None>
+    <None Include="resources\files\imdb\title.ratings_test.tsv">
+      <Filter>resources\files\imdb</Filter>
+    </None>
+    <None Include="resources\files\imdb\title.akas.reduced.es_test.tsv">
+      <Filter>resources\files\imdb</Filter>
+    </None>
+    <None Include="resources\files\utils\config_example.json">
+      <Filter>resources\files\utils</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="modules">
+      <UniqueIdentifier>{b9a4aabf-be83-40a0-ae50-be22c8d163ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{b515ee99-d74d-4b21-a6e7-15384ecfa27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\files">
+      <UniqueIdentifier>{4be1ae54-9c1c-4c56-8f73-8b3e7ca3fb4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\files\imdb">
+      <UniqueIdentifier>{e054db7f-716c-4b3f-9853-dbcdd35d070d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\files\justwatch">
+      <UniqueIdentifier>{576ef831-e322-45c6-aaea-8b9289d578a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\files\tmdb">
+      <UniqueIdentifier>{21eaa8e6-ba61-414c-b478-b077de581c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\files\utils">
+      <UniqueIdentifier>{7f43b39e-59af-473b-99e8-0be56c6d5a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="helper">
+      <UniqueIdentifier>{492ba67f-b91e-4a02-9090-f8103c826b1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
