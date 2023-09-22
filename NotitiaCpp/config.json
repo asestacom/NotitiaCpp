@@ -1,0 +1,27 @@
+{
+  "version": "1",
+  "db": {
+    "__imdb-module__": "____________________________________",
+    "data": "files/imdb/title.basics.reduced.es.tsv",
+    "data_akas": "files/imdb/title.akas.reduced.es.tsv",
+    "data_ratings": "files/imdb/title.ratings.tsv",
+    "__tmdb-module__": "____________________________________",
+    "data_tmdbs": "files/tmdb/movies_metadata.csv",
+    "data_tmdbs_big": "files/tmdb/archive.csv",
+    "__justwatch-module__": "____________________________________",
+    "justwatch_edges": [
+      "files/justwatch/all.disney+.json",
+      "files/justwatch/all.netflix.json"
+    ]
+  },
+  "filter_node_format": [
+    "movie",
+    "tvSeries",
+    "short"
+  ],
+  "working_file": "result/movies.json",
+  "output_file": "result/movies.result.json",
+  "updating": "true",
+  "raw_list_movie_file": "result/movies.txt",
+  "language": "ES"
+}

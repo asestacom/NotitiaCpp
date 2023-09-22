@@ -1,0 +1,7 @@
+.vs
+x64
+files
+result/old
+
+*.suo
+*.vcxproj.user

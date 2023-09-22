@@ -1,0 +1,16 @@
+{
+  "version": "1",
+  "db": {
+    "test": "Hello world",
+    "test_array": [
+      "item 1",
+      "item 2"
+    ]
+  },
+  "items": [
+    "movie",
+    "tvSeries",
+    "short"
+  ],
+  "language": "ES"
+}
