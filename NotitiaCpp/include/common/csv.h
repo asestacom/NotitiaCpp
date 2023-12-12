@@ -23,7 +23,7 @@ namespace csv {
             case '"':
                 {
                     std::string token = get_text_in_quotes(++current, last, *current);
-                    current += static_cast<const __int64>(token.size()) + 1;
+                    current += std::min(last - current, static_cast<const __int64>(token.size()) + 1);
                     cols.emplace_back(token);
                     found = true;
                 }

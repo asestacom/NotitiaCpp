@@ -1,6 +1,6 @@
 #pragma once
 
-//#define ONE_THREAD_FOR_SEARCH_INDICES
+//#define ONE_THREAD_IN_SEARCH_INDICES
 #define USING_ASYNC
 
 #include <iostream>
@@ -78,7 +78,6 @@ inline auto get_filename(std::filesystem::path& path) noexcept {
 }
 
 inline auto search_indices(const std::string& data, std::vector<size_t>& indices, const auto& text_to_search, size_t data_pos, size_t data_end) {
-    static std::mutex indices_mutex;
     auto text = title_ready(text_to_search);
     const auto special_chrs = { ':', '.', '\'', '?', ';' };
 
@@ -106,7 +105,6 @@ inline auto search_indices(const std::string& data, std::vector<size_t>& indices
         }
 
         if (current_index) {
-            std::lock_guard<std::mutex> guard(indices_mutex);
             indices.emplace_back(last_eol);
             // std::cout << std::this_thread::get_id() << " - " << last_eol << "\n";
         }
@@ -115,7 +113,7 @@ inline auto search_indices(const std::string& data, std::vector<size_t>& indices
     return indices;
 }
 
-#ifdef ONE_THREAD_FOR_SEARCH_INDICES
+#ifdef ONE_THREAD_IN_SEARCH_INDICES
 inline auto search_indices(const std::string& data, const std::string& text_to_search) {
     PrintDuration dur;
     std::vector<size_t> indices;
@@ -124,6 +122,7 @@ inline auto search_indices(const std::string& data, const std::string& text_to_s
 #else
 inline auto search_indices(const std::string& data, const std::string& text_to_search) {
     PrintDuration dur;
+    std::mutex indices_mutex;
     
     std::vector<size_t> indices;
 
@@ -139,8 +138,11 @@ inline auto search_indices(const std::string& data, const std::string& text_to_s
         std::vector<std::future<void>> workers;
         for (; begin_of_line < data_size;) {
             size_t end_of_line = std::min(data_size, data.find("\n", begin_of_line + data_chunk_size));
-            workers.emplace_back(std::async(std::launch::async, [&indices, &data](auto text_to_search, auto begin_of_line, auto end_of_line) {
-                search_indices(data, indices, text_to_search, begin_of_line, end_of_line);
+            workers.emplace_back(std::async(std::launch::async, [&indices, &data, &indices_mutex](auto text_to_search, auto begin_of_line, auto end_of_line) {
+                std::vector<size_t> indicesAux;
+                search_indices(data, indicesAux, text_to_search, begin_of_line, end_of_line);
+                std::lock_guard<std::mutex> guard(indices_mutex);
+                indices.insert(indices.end(), indicesAux.begin(), indicesAux.end());
                 }, text_to_search, begin_of_line, end_of_line));
             begin_of_line = end_of_line;
         }
@@ -150,8 +152,11 @@ inline auto search_indices(const std::string& data, const std::string& text_to_s
         std::vector<std::jthread> workers;
         for (; begin_of_line < data_size;) {
             size_t end_of_line = std::min(data_size, data.find("\n", begin_of_line + data_chunk_size));
-            workers.emplace_back(std::jthread([&indices, &data](auto text_to_search, auto begin_of_line, auto end_of_line) {
-                search_indices(data, indices, text_to_search, begin_of_line, end_of_line);
+            workers.emplace_back(std::jthread([&indices, &data, &indices_mutex](auto text_to_search, auto begin_of_line, auto end_of_line) {
+                std::vector<size_t> indicesAux;
+                search_indices(data, indicesAux, text_to_search, begin_of_line, end_of_line);
+                std::lock_guard<std::mutex> guard(indices_mutex);
+                indices.insert(indices.end(), indicesAux.begin(), indicesAux.end());
                 }, text_to_search, begin_of_line, end_of_line));
             begin_of_line = end_of_line;
         }
