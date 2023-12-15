@@ -182,14 +182,3 @@ inline std::string get_text_in_quotes(auto current, const auto last, const char 
     }
     return str;
 }
-
-inline std::string escape_quotes(auto current, const auto last, const char delimiter) noexcept {
-    std::string str{ "" };
-    while (current != last) {
-        if (*current == delimiter)
-            str += '\\';
-        str += *current;
-        ++current;
-    }
-    return str;
-}

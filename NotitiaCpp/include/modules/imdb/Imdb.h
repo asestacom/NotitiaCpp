@@ -33,15 +33,11 @@ struct Imdb {
         json["primaryTitle"] = primaryTitle;
         json["originalTitle"] = originalTitle;
         json["year"] = startYear;
-        json["runtimeMinutes"] = escape_quotes(runtimeMinutes);
+        json["runtimeMinutes"] = runtimeMinutes;
         json["genres"] = genres;
         json["ratings"] = ratings;
         return json;
     }
 
     using Imdbs = JsonVariantVectorItems<Imdb>;
-
-    std::string escape_quotes(const std::string text) const {
-        return text;
-    }
 };
