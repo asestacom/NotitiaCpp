@@ -136,17 +136,17 @@ private:
 
                 switch (*current)
                 {
-                case '"':
+                case '"': [[fallthrough]];
                 case '\'':
                 {
-                    // "name":"value"
+                    // "key":"value"
+                    std::string delimiter(1, *current);
                     std::string token = get_text_in_quotes(++current, last, *current);
                     if (!in_value) {
-                        key = token;
+                        key = unescape_chars(token, delimiter);
                     }
                     else {
-                        value = token;
-                        json[key] = value;
+                        json[key] = unescape_chars(token, delimiter);
                         key = "";
                         value = "";
                         in_value = false;
@@ -187,7 +187,28 @@ private:
     }
     static auto write_quotes(auto &text) {
         std::stringstream result;
-        result << "\"" << text << "\"";
+        result << "\"" << escape_chars(text) << "\"";
         return result.str();
+    }
+
+    [[nodiscard]] static const std::string escape_chars(const std::string& text) {
+        return replace_all(replace_all(text, "\\", "\\\\"), "\"", "\\\"");
+    }
+    template<typename T> [[nodiscard]] static T escape_chars(T& text) {
+        return text;
+    }
+
+    [[nodiscard]] static const std::string unescape_chars(const std::string& text, const std::string& delimiter) {
+        return replace_all(replace_all(text, "\\\\", "\\"), "\\" + delimiter, delimiter);
+    }
+
+    [[nodiscard]] static const std::string replace_all(const std::string& text, const std::string from, const std::string to) {
+        size_t start_pos = 0;
+        std::string str(text);
+        while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length();
+        }
+        return str;
     }
 };
